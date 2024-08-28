@@ -1,2 +1,1 @@
-# examples
-Examples of Modelence projects
+# Examples of Modelence Projects
