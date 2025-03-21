@@ -19,6 +19,17 @@ export default function HomePage() {
             </code>
           </p>
         </div>
+
+        <div className="mt-4">
+          <a 
+            href="https://docs.modelence.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:text-blue-800 text-lg font-semibold"
+          >
+            Docs →
+          </a>
+        </div>
       </div>
     </div>
   );
