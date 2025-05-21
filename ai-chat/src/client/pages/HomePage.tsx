@@ -1,35 +1,86 @@
 // @ts-ignore
 import logo from '../assets/modelence.png';
+import { useState } from 'react';
+import { useMutation } from 'modelence/client';
+interface ChatMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
 
 export default function HomePage() {
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const { mutateAsync: generateResponse } = useMutation<ChatMessage>('aiChat.generateResponse');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+
+    const userMessage: ChatMessage = { role: 'user', content: input };
+    setMessages(prev => [...prev, userMessage]);
+    setInput('');
+    
+    setIsLoading(true);
+    
+    const aiMessage = await generateResponse({ message: input });
+    setMessages(prev => [...prev, aiMessage]);
+    setIsLoading(false);
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <div className="flex justify-center mb-8">
-          <img src={logo} alt="Modelence Logo" className="w-32 h-32" />
-        </div>
-        <h1 className="text-4xl font-bold text-gray-900">Hello, World!</h1>
-        <p className="mt-4 text-gray-600">Welcome to your new Modelence project</p>
-        
-        <div className="mt-12 p-4 bg-white rounded-lg shadow-sm">
-          <p className="text-sm font-mono">
-            Get started by editing{' '}
-            <code className="font-bold py-1">
-              src/client/pages/HomePage.tsx
-            </code>
-          </p>
+    <div className="min-h-screen flex flex-col bg-gray-100">
+      <div className="flex items-center justify-center p-4 border-b bg-white">
+        <img src={logo} alt="Modelence Logo" className="w-8 h-8" />
+      </div>
+
+      <div className="flex-1 max-w-3xl mx-auto w-full p-4 flex flex-col">
+        <div className="flex-1 overflow-y-auto mb-4 space-y-4">
+          {messages.map((message, index) => (
+            <div
+              key={index}
+              className={`p-4 rounded-lg ${
+                message.role === 'user' 
+                  ? 'bg-blue-100 ml-12' 
+                  : 'bg-white mr-12'
+              }`}
+            >
+              {message.content}
+            </div>
+          ))}
+          {isLoading && (
+            <div className="bg-white mr-12 p-4 rounded-lg">
+              <div className="flex gap-2">
+                <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '200ms' }}></div>
+                <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '400ms' }}></div>
+              </div>
+            </div>
+          )}
         </div>
 
-        <div className="mt-4">
-          <a 
-            href="https://docs.modelence.com" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-blue-600 hover:text-blue-800 text-lg font-semibold"
+        <form onSubmit={handleSubmit} className="flex gap-2">
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSubmit(e);
+              }
+            }}
+            rows={1}
+            className="flex-1 p-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-y-auto"
+            placeholder="Type your message... (Shift + Enter for new line)"
+            style={{ minHeight: '42px', maxHeight: '200px' }}
+          />
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            Docs →
-          </a>
-        </div>
+            Send
+          </button>
+        </form>
       </div>
     </div>
   );
