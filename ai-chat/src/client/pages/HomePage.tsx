@@ -10,8 +10,7 @@ interface ChatMessage {
 export default function HomePage() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const { mutateAsync: generateResponse } = useMutation<ChatMessage>('aiChat.generateResponse');
+  const { mutateAsync: generateResponse, isFetching } = useMutation<ChatMessage>('aiChat.generateResponse');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,11 +20,8 @@ export default function HomePage() {
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     
-    setIsLoading(true);
-    
     const aiMessage = await generateResponse({ message: input });
     setMessages(prev => [...prev, aiMessage]);
-    setIsLoading(false);
   };
 
   return (
@@ -48,7 +44,7 @@ export default function HomePage() {
               {message.content}
             </div>
           ))}
-          {isLoading && (
+          {isFetching && (
             <div className="bg-white mr-12 p-4 rounded-lg">
               <div className="flex gap-2">
                 <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>

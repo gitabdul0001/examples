@@ -1,7 +1,16 @@
-import { Module } from 'modelence/server';
+import { getConfig, Module } from 'modelence/server';
+import { generateText } from 'ai';
+import { createOpenAI } from '@ai-sdk/openai';
 import { z } from 'zod';
 
 export default new Module('aiChat', {
+  configSchema: {
+    openaiKey: {
+      type: 'secret',
+      default: process.env.OPENAI_API_KEY ?? '',
+      isPublic: false,
+    },
+  },
   mutations: {
     generateResponse: {
       handler: async (args) => {
@@ -9,14 +18,20 @@ export default new Module('aiChat', {
           message: z.string(),
         }).parse(args);
 
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        const openai = createOpenAI({ apiKey: String(getConfig('aiChat.openaiKey')) });
+        const response = await generateText({
+          model: openai('gpt-4o'),
+          messages: [{
+            role: 'user',
+            content: message
+          }],
+        });
 
         return {
           role: 'assistant',
-          content: 'This is a placeholder AI response.',
+          content: response.text,
         };
       },
     },
   },
 });
-

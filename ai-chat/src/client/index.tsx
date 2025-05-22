@@ -1,6 +1,6 @@
 import { renderApp } from 'modelence/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
+import { toast, Toaster } from 'react-hot-toast';
 
 import { routes } from './routes';
 // @ts-ignore
@@ -10,6 +10,7 @@ import './index.css';
 renderApp({
   routesElement: (
     <BrowserRouter>
+      <Toaster position="top-right" />
       <Routes>
         {routes.map((route) => (
           <Route key={route.path} path={route.path} element={<route.Component />} />
