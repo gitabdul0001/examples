@@ -4,13 +4,6 @@ import { createOpenAI } from '@ai-sdk/openai';
 import { z } from 'zod';
 
 export default new Module('aiChat', {
-  configSchema: {
-    openaiKey: {
-      type: 'secret',
-      default: process.env.OPENAI_API_KEY ?? '',
-      isPublic: false,
-    },
-  },
   mutations: {
     generateResponse: {
       handler: async (args) => {
@@ -18,7 +11,7 @@ export default new Module('aiChat', {
           message: z.string(),
         }).parse(args);
 
-        const openai = createOpenAI({ apiKey: String(getConfig('aiChat.openaiKey')) });
+        const openai = createOpenAI({ apiKey: String(getConfig('_system.openai.apiKey')) });
         const response = await generateText({
           model: openai('gpt-4o'),
           messages: [{
