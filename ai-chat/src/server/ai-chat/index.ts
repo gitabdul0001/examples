@@ -7,17 +7,19 @@ export default new Module('aiChat', {
   mutations: {
     generateResponse: {
       handler: async (args) => {
-        const { message } = z.object({
-          message: z.string(),
+        const { messages } = z.object({
+          messages: z.array(z.object({
+            role: z.enum(['user', 'assistant']),
+            content: z.string(),
+          })),
         }).parse(args);
+
+        const contextMessages = messages.slice(-10);
 
         const openai = createOpenAI({ apiKey: String(getConfig('_system.openai.apiKey')) });
         const response = await generateText({
           model: openai('gpt-4o'),
-          messages: [{
-            role: 'user',
-            content: message
-          }],
+          messages: contextMessages,
         });
 
         return {

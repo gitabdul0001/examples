@@ -17,10 +17,11 @@ export default function HomePage() {
     if (!input.trim()) return;
 
     const userMessage: ChatMessage = { role: 'user', content: input };
-    setMessages(prev => [...prev, userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setInput('');
     
-    const aiMessage = await generateResponse({ message: input });
+    const aiMessage = await generateResponse({ messages: updatedMessages });
     setMessages(prev => [...prev, aiMessage]);
   };
 
