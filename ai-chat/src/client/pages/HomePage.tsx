@@ -26,13 +26,13 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
+    <div className="h-screen flex flex-col bg-gray-100">
       <div className="flex items-center justify-center p-4 border-b bg-white">
         <img src={logo} alt="Modelence Logo" className="w-8 h-8" />
       </div>
 
-      <div className="flex-1 max-w-3xl mx-auto w-full p-4 flex flex-col">
-        <div className="flex-1 overflow-y-auto mb-4 space-y-4">
+      <div className="flex-1 overflow-y-auto min-h-0">
+        <div className="max-w-3xl mx-auto p-4 space-y-4">
           {messages.map((message, index) => (
             <div
               key={index}
@@ -55,29 +55,33 @@ export default function HomePage() {
             </div>
           )}
         </div>
+      </div>
 
-        <form onSubmit={handleSubmit} className="flex gap-2">
-          <textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleSubmit(e);
-              }
-            }}
-            rows={1}
-            className="flex-1 p-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-y-auto"
-            placeholder="Type your message... (Shift + Enter for new line)"
-            style={{ minHeight: '42px', maxHeight: '200px' }}
-          />
-          <button
-            type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Send
-          </button>
-        </form>
+      <div className="bg-white border-t p-4">
+        <div className="max-w-3xl mx-auto">
+          <form onSubmit={handleSubmit} className="flex gap-2">
+            <textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSubmit(e);
+                }
+              }}
+              rows={1}
+              className="flex-1 p-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-y-auto"
+              placeholder="Type your message... (Shift + Enter for new line)"
+              style={{ minHeight: '42px', maxHeight: '200px' }}
+            />
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              Send
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
