@@ -11,6 +11,7 @@ import './index.css';
 const HomePage = lazy(() => import('./pages/HomePage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const SignupPage = lazy(() => import('./pages/SignupPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
         element: <SignupPage />
       }
     ]
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />
   }
 ]);
 
