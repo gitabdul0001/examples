@@ -1,6 +1,7 @@
 import { renderApp } from 'modelence/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { toast, Toaster } from 'react-hot-toast';
+import { Suspense } from 'react';
 
 import { routes } from './routes';
 // @ts-ignore
@@ -11,11 +12,13 @@ renderApp({
   routesElement: (
     <BrowserRouter>
       <Toaster position="top-right" />
-      <Routes>
-        {routes.map((route) => (
-          <Route key={route.path} path={route.path} element={<route.Component />} />
-        ))}
-      </Routes>
+      <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+        <Routes>
+          {routes.map((route) => (
+            <Route key={route.path} path={route.path} element={<route.Component />} />
+          ))}
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   ),
   errorHandler: (error) => {
