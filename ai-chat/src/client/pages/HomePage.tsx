@@ -2,6 +2,7 @@
 import Header from '../components/Header';
 import { useState } from 'react';
 import { useMutation } from 'modelence/client';
+import Button from '../ui/Button';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -73,12 +74,13 @@ export default function HomePage() {
               placeholder="Type your message... (Shift + Enter for new line)"
               style={{ minHeight: '42px', maxHeight: '200px' }}
             />
-            <button
+            <Button
               type="submit"
-              className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-800 focus:outline-none focus:ring-2 focus:ring-primary"
+              variant="primary"
+              size="lg"
             >
               Send
-            </button>
+            </Button>
           </form>
         </div>
       </div>
