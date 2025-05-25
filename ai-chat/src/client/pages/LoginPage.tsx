@@ -6,7 +6,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex flex-col bg-gray-100">
       <div className="flex-1 flex items-center justify-center">
         <LoginForm renderSignupLink={({ className, children }) => (
-          <Link to="/signup" className={className}>{children}</Link>
+          <Link to="/auth/signup" className={className}>{children}</Link>
         )} />
       </div>
     </div>

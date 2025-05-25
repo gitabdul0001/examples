@@ -1,26 +1,57 @@
 import { renderApp } from 'modelence/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { toast, Toaster } from 'react-hot-toast';
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 
-import { routes } from './routes';
+import { AuthenticatedGuard, UnauthenticatedGuard } from './guards';
 // @ts-ignore
 import favicon from './assets/favicon.png';
 import './index.css';
 
-renderApp({
-  routesElement: (
-    <BrowserRouter>
+const HomePage = lazy(() => import('./pages/HomePage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const SignupPage = lazy(() => import('./pages/SignupPage'));
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <UnauthenticatedGuard />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />
+      }
+    ]
+  },
+  {
+    path: '/auth',
+    element: <AuthenticatedGuard />,
+    children: [
+      {
+        path: 'login',
+        element: <LoginPage />
+      },
+      {
+        path: 'signup',
+        element: <SignupPage />
+      }
+    ]
+  }
+]);
+
+function App() {
+  return (
+    <>
       <Toaster position="top-right" />
       <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-        <Routes>
-          {routes.map((route) => (
-            <Route key={route.path} path={route.path} element={<route.Component />} />
-          ))}
-        </Routes>
+        <RouterProvider router={router} />
       </Suspense>
-    </BrowserRouter>
-  ),
+    </>
+  );
+}
+
+renderApp({
+  routesElement: <App />,
   errorHandler: (error) => {
     toast.error(error.message);
   },
