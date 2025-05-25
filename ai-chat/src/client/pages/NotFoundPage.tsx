@@ -19,7 +19,7 @@ export default function NotFoundPage() {
           <div className="space-y-4">
             <Link
               to="/"
-              className="inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors duration-200 font-medium"
+              className="inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-800 transition-colors duration-200 font-medium"
             >
               Go Home
             </Link>
@@ -27,7 +27,7 @@ export default function NotFoundPage() {
             <div className="text-sm text-gray-500">
               <button
                 onClick={() => window.history.back()}
-                className="text-primary hover:text-primary-600 underline"
+                className="text-primary hover:text-primary-800 underline"
               >
                 Go back to previous page
               </button>
