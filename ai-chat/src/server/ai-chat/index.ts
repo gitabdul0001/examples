@@ -13,6 +13,39 @@ export default new Module('aiChat', {
         sort: { createdAt: -1 },
       });
     },
+    async getMessages(args, { user: _user }) {
+      const user = requireUser(_user);
+      const { chatId } = z.object({
+        chatId: z.string(),
+      }).parse(args);
+
+      const chat = await dbChats.findOne({
+        _id: new ObjectId(chatId),
+        userId: new ObjectId(user.id),
+      });
+
+      if (!chat) {
+        throw new Error('Chat not found');
+      }
+
+      const messages = await dbMessages.fetch(
+        { 
+          userId: new ObjectId(user.id),
+          chatId: new ObjectId(chatId),
+        },
+        {
+          sort: { createdAt: 1 },
+        }
+      );
+
+      return {
+        messages: messages.map(msg => ({
+          role: msg.role,
+          content: msg.content,
+        })),
+        chatTitle: chat.title,
+      };
+    },
   },
   mutations: {
     async generateResponse(args, { user: _user }) {

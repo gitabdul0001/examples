@@ -9,6 +9,7 @@ import favicon from './assets/favicon.png';
 import './index.css';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
+const ChatPage = lazy(() => import('./pages/ChatPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const SignupPage = lazy(() => import('./pages/SignupPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />
+      },
+      {
+        path: 'chat/:chatId',
+        element: <ChatPage />
       }
     ]
   },
