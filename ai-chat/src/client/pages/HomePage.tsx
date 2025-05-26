@@ -38,7 +38,7 @@ export default function HomePage() {
               key={index}
               className={`p-4 rounded-lg ${
                 message.role === 'user' 
-                  ? 'bg-primary-50 ml-12' 
+                  ? 'bg-slate-200 ml-12' 
                   : 'bg-white mr-12'
               }`}
             >
