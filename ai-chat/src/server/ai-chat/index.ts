@@ -9,7 +9,9 @@ export default new Module('aiChat', {
   queries: {
     async getChats(args, { user: _user }) {
       const user = requireUser(_user);
-      return dbChats.fetch({ userId: new ObjectId(user.id) });
+      return dbChats.fetch({ userId: new ObjectId(user.id) }, {
+        sort: { createdAt: -1 },
+      });
     },
   },
   mutations: {
