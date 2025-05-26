@@ -77,7 +77,7 @@ export default function HomePage() {
             <Button
               type="submit"
               variant="primary"
-              size="lg"
+              size="md"
             >
               Send
             </Button>
