@@ -4,6 +4,7 @@ import { toast, Toaster } from 'react-hot-toast';
 import { Suspense, lazy } from 'react';
 
 import { AuthenticatedGuard, UnauthenticatedGuard } from './guards';
+import LoadingSpinner from './components/LoadingSpinner';
 // @ts-ignore
 import favicon from './assets/favicon.png';
 import './index.css';
@@ -13,6 +14,7 @@ const ChatPage = lazy(() => import('./pages/ChatPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const SignupPage = lazy(() => import('./pages/SignupPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: 'chat/:chatId',
         element: <ChatPage />
+      },
+      {
+        path: 'profile',
+        element: <ProfilePage />
       }
     ]
   },
@@ -53,7 +59,7 @@ function App() {
   return (
     <>
       <Toaster position="top-right" />
-      <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+      <Suspense fallback={<LoadingSpinner fullScreen />}>
         <RouterProvider router={router} />
       </Suspense>
     </>
@@ -65,7 +71,7 @@ renderApp({
   errorHandler: (error) => {
     toast.error(error.message);
   },
-  loadingElement: <div>Loading...</div>,
+  loadingElement: <LoadingSpinner fullScreen />,
   favicon
 });
 

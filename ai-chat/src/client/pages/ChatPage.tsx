@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'modelence/client';
-import Header from '../components/Header';
+import Page from '../components/Page';
 import ChatSidebar from '../components/ChatSidebar';
 import ChatMessages from '../components/ChatMessages';
 
@@ -20,10 +20,8 @@ export default function ChatPage() {
   const messages = data?.messages ?? [];
 
   return (
-    <div className="h-screen flex flex-col bg-gray-100">
-      <Header />
-      
-      <div className="flex-1 flex min-h-0">
+    <Page>
+      <div className="flex min-h-0 h-full">
         <ChatSidebar />
         <div className="flex-1 flex flex-col">
           {isFetching ? (
@@ -46,6 +44,6 @@ export default function ChatPage() {
           )}
         </div>
       </div>
-    </div>
+    </Page>
   );
-} 
+}
