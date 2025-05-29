@@ -11,9 +11,17 @@ export default function Header() {
         <img src={logo} alt="Modelence Logo" className="w-8 h-8" />
         <span className="text-lg font-semibold text-gray-800">Agent Chat</span>
       </Link>
-      <UserMenu renderLink={({ href, className, children }) => (
-        <Link to={href} className={className}>{children}</Link>
-      )} />
+      <UserMenu
+        menuItems={[
+          {
+            href: '/profile',
+            label: 'Profile',
+          },
+        ]}
+        renderLink={({ href, className, children }) => (
+          <Link to={href} className={className}>{children}</Link>
+        )}
+      />
     </div>
   );
 }
