@@ -1,6 +1,7 @@
 "use client";
 
-import { useSession, modelenceMutation } from 'modelence/client';
+import { useSession } from 'modelence/client';
+import { modelenceMutation } from '@modelence/react-query';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 

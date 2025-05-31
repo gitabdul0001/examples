@@ -67,8 +67,8 @@ function UserMenu() {
 
       <ul className="py-2 text-sm text-gray-700">
         <MenuItem to="/profile">Profile</MenuItem>
+        <MenuItem to="/account">Account Settings</MenuItem>
         <MenuItem to="/typing-history">Typing History</MenuItem>
-        <MenuItem to="/settings">Settings</MenuItem>
       </ul>
 
       <div className="py-1">

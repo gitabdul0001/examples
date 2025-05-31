@@ -1,4 +1,5 @@
-import { useSession, modelenceQuery } from 'modelence/client';
+import { useSession } from 'modelence/client';
+import { modelenceQuery } from '@modelence/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { Page } from '@/client/layout/Page';
 import { Card } from '@/client/ui/Card';

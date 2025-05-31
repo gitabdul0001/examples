@@ -1,4 +1,5 @@
-import { useSession, modelenceQuery, modelenceMutation } from 'modelence/client';
+import { useSession } from 'modelence/client';
+import { modelenceQuery, modelenceMutation } from '@modelence/react-query';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
