@@ -1,11 +1,12 @@
-import { useQuery, useSession } from 'modelence/client';
+import { useSession, modelenceQuery } from 'modelence/client';
+import { useQuery } from '@tanstack/react-query';
 import { Page } from '@/client/layout/Page';
 import { Card } from '@/client/ui/Card';
 import { SpeedWidget } from '@/client/stats';
 import { Link } from 'react-router-dom';
 
 export default function TypingHistoryPage() {
-  const { data: sessions, isFetching, error } = useQuery('typingSession.getHistory');
+  const { data: sessions, isFetching, error } = useQuery(modelenceQuery<any[]>('typingSession.getHistory'));
 
   if (isFetching) {
     return (
@@ -34,7 +35,7 @@ export default function TypingHistoryPage() {
       <div className="space-y-6">
         <h1 className="text-2xl font-bold text-gray-900">Typing History</h1>
         <div className="space-y-4">
-          {sessions.map((session: any) => (
+          {sessions?.map((session: any) => (
             <TypingSessionCard key={session._id} session={session} />
           ))}
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
-import { useQuery, useSession, useMutation } from 'modelence/client';
+import { useSession, modelenceMutation } from 'modelence/client';
+import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 import * as React from 'react';
@@ -15,14 +16,14 @@ import { Typewriter } from '../typewriter/Typewriter';
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { mutateAsync: createTypingSession, isFetching } = useMutation('typingSession.create');
+  const { mutateAsync: createTypingSession, isPending } = useMutation(modelenceMutation('typingSession.create'));
 
   const handleEnter = async () => {
     const sessionId = await createTypingSession();
     navigate(`/session/${sessionId}`);
   };
 
-  return <Intro handleEnter={handleEnter} isFetching={isFetching} />;
+  return <Intro handleEnter={handleEnter} isFetching={isPending} />;
 
   // return <TypewriterArena />;
 }

@@ -1,4 +1,5 @@
-import { useMutation, useQuery, useSession } from 'modelence/client';
+import { useSession, modelenceQuery, modelenceMutation } from 'modelence/client';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -10,7 +11,7 @@ import { getTextLines } from '../text';
 
 export default function TypingSessionPage() {
   const { id } = useParams();
-  const { data: sessionData, refetch, isFetching, error } = useQuery('typingSession.getOwn', { id });
+  const { data: sessionData, refetch, isFetching, error } = useQuery(modelenceQuery('typingSession.getOwn', { id }));
   const [speed, setSpeed] = useState(null);
 
   if (isFetching) {
@@ -54,7 +55,7 @@ export default function TypingSessionPage() {
 function TypewriterArena({ text, speed, setSpeed, onFinished }: { text: string, speed: number, setSpeed: (speed: number) => void, onFinished: () => void }) {
   const { id } = useParams();
 
-  const { mutateAsync: completeSession } = useMutation('typingSession.complete', { id });
+  const { mutateAsync: completeSession } = useMutation(modelenceMutation('typingSession.complete', { id }));
 
   return (
     <div className="space-y-8">
@@ -65,7 +66,7 @@ function TypewriterArena({ text, speed, setSpeed, onFinished }: { text: string, 
         text={text}
         onSpeed={setSpeed}
         onFinished={async () => {
-          await completeSession();
+          await completeSession({});
           onFinished();
         }}
       />
@@ -79,8 +80,8 @@ function TypingResults({ text, session }: { text: string, session: any }) {
   const {
     data: analysis,
     mutateAsync: analyzeSession,
-    isFetching: isAnalyzing
-  } = useMutation<string>('typingSession.analyze');
+    isPending: isAnalyzing
+  } = useMutation(modelenceMutation<string>('typingSession.analyze'));
 
   const participant = session.participants.find((p: any) => p.userId === user?.id);
   const speed = participant?.speed ?? null;
