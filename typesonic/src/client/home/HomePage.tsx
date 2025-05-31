@@ -20,7 +20,7 @@ export default function HomePage() {
   const { mutateAsync: createTypingSession, isPending } = useMutation(modelenceMutation('typingSession.create'));
 
   const handleEnter = async () => {
-    const sessionId = await createTypingSession();
+    const sessionId = await createTypingSession({});
     navigate(`/session/${sessionId}`);
   };
 
