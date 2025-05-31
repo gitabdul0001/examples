@@ -1,6 +1,7 @@
 'use client';
 
-import { useQuery, useMutation } from 'modelence/client';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { modelenceQuery, modelenceMutation } from 'modelence/client';
 
 interface Todo {
   _id: string;
@@ -9,8 +10,8 @@ interface Todo {
 }
 
 export default function Home() {
-  const { data: todos, refetch: refetchTodos, isFetching, error } = useQuery<Todo[]>('todos.getAll');
-  const { mutateAsync: setCompleted } = useMutation('todos.setCompleted');
+  const { data: todos, refetch: refetchTodos, isFetching, error } = useQuery(modelenceQuery<Todo[]>('todos.getAll'));
+  const { mutateAsync: setCompleted } = useMutation(modelenceMutation('todos.setCompleted'));
 
   if (isFetching) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
