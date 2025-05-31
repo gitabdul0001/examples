@@ -1,7 +1,7 @@
 'use client';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { modelenceQuery, modelenceMutation } from 'modelence/client';
+import { modelenceQuery, modelenceMutation } from '@modelence/react-query';
 
 interface Todo {
   _id: string;
