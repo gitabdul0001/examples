@@ -18,7 +18,7 @@
     ],
     "jsx": "preserve",
     "allowJs": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "strict": false,
     "noEmit": true,
     "incremental": true,
