@@ -1,12 +1,13 @@
 import { Module, ObjectId, schema, Store } from 'modelence/server';
 import { time } from 'modelence';
-import { fetchRandomTextId, typewriterTexts } from '../typewriter-text';
+import { dbTexts } from '../typewriter-text/db';
+import { fetchRandomTextId } from '../typewriter-text';
 import { z } from 'zod';
 import { analyzeSession } from './analyze';
 
 const typingSessions = new Store('typingSessions', {
   schema: {
-    textId: schema.ref(typewriterTexts),
+    textId: schema.ref(dbTexts),
     participants: [{
       userId: schema.userId(),
       status: schema.enum(['pending', 'done']),
@@ -25,7 +26,7 @@ const typingSessions = new Store('typingSessions', {
       return this.participants.find(participant => participant.userId.toString() === userId);
     },
     async fetchText() {
-      return (await typewriterTexts.requireById(this.textId)).text;
+      return (await dbTexts.requireById(this.textId)).text;
     }
   },
   indexes: []

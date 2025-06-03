@@ -2,6 +2,7 @@ import { startApp } from 'modelence/server';
 
 import typewriterText from './typewriter-text';
 import typingSession from './typing-session';
+import { initializeTexts } from './initialData';
 
 startApp({
   modules: [typewriterText, typingSession],
@@ -16,5 +17,10 @@ startApp({
   defaultRoles: {
     unauthenticated: 'guest',
     authenticated: 'user',
-  }
+  },
+  migrations: [{
+    version: 1,
+    description: 'Initialize texts',
+    handler: initializeTexts,
+  }]
 });

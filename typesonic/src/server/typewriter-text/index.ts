@@ -1,18 +1,9 @@
-import { schema, Store, Module } from 'modelence/server';
+import { Module } from 'modelence/server';
 import { ConfigSchema, time } from 'modelence';
-
-export const typewriterTexts = new Store('typewriterTexts', {
-  schema: {
-    text: schema.string(),
-    addedDate: schema.date(),
-  },
-  indexes: [
-    { key: { addedDate: -1 } }
-  ]
-});
+import { dbTexts } from './db';
 
 export async function fetchRandomTextId() {
-  const typewriterTextDoc = await typewriterTexts.aggregate([
+  const typewriterTextDoc = await dbTexts.aggregate([
     { $sample: { size: 1 } }
   ]).next();
 
@@ -25,7 +16,7 @@ export async function fetchRandomTextId() {
 
 const queries = {
   async getOne() {
-    const typewriterTextDoc = await typewriterTexts.aggregate([
+    const typewriterTextDoc = await dbTexts.aggregate([
       { $sample: { size: 1 } }
     ]).next();
     return typewriterTextDoc?.text || '';
@@ -66,7 +57,7 @@ const configSchema: ConfigSchema = {
 };
 
 export default new Module('typewriterText', {
-  stores: [typewriterTexts],
+  stores: [dbTexts],
   queries,
   cronJobs,
   configSchema
