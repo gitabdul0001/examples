@@ -1,11 +1,16 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { modelenceMutation } from '@modelence/react-query';
+import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
+}
+
+interface GenerateResponseResult extends ChatMessage {
+  chatId?: string;
 }
 
 interface ChatMessagesProps {
@@ -16,6 +21,7 @@ interface ChatMessagesProps {
 export default function ChatMessages({ messages = [], chatId }: ChatMessagesProps) {
   const [pendingMessages, setPendingMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
+  const navigate = useNavigate();
   const { mutateAsync: generateResponse, isPending } = useMutation(
     modelenceMutation('aiChat.generateResponse')
   );
@@ -28,17 +34,23 @@ export default function ChatMessages({ messages = [], chatId }: ChatMessagesProp
     setPendingMessages([userMessage]);
     setInput('');
     
-    const aiMessage = await generateResponse({ 
+    const response = await generateResponse({ 
       messages: [...messages, userMessage],
       chatId,
-    });
+    }) as GenerateResponseResult;
+    
+    const aiMessage: ChatMessage = { role: response.role, content: response.content };
     setPendingMessages(prev => [...prev, aiMessage]);
+    
+    if (!chatId && response.chatId) {
+      navigate(`/chat/${response.chatId}`);
+    }
   };
 
   const allMessages = [...messages, ...pendingMessages];
 
   return (
-    <div className="flex-1 flex flex-col">
+    <div className="flex-1 flex flex-col min-h-0">
       <div className="flex-1 overflow-y-auto min-h-0">
         <div className="max-w-3xl mx-auto p-4 space-y-4">
           {allMessages.map((message, index) => (
@@ -63,9 +75,10 @@ export default function ChatMessages({ messages = [], chatId }: ChatMessagesProp
             </div>
           )}
         </div>
+        <div className="h-32"></div>
       </div>
 
-      <div className="bg-white border-t p-4">
+      <div className="fixed bottom-0 left-64 right-0 bg-white border-t p-4 z-10">
         <div className="max-w-3xl mx-auto">
           <form onSubmit={handleSubmit} className="flex gap-2">
             <textarea

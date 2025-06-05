@@ -10,12 +10,12 @@ interface Chat {
 
 export default function ChatSidebar() {
   const { data: chats = [], isPending } = useQuery(
-    modelenceQuery('aiChat.getChats')
+    modelenceQuery<Chat[]>('aiChat.getChats')
   );
 
   return (
-    <div className="w-64 bg-gray-50 border-r flex flex-col">
-      <div className="p-4 border-b">
+    <div className="w-64 bg-gray-50 border-r flex flex-col h-full">
+      <div className="p-4 border-b flex-shrink-0">
         <Link to="/" className="block w-full">
           <button className="w-full border border-primary text-primary rounded-lg py-2 px-4 hover:bg-primary/10 transition-colors">
             New Chat
@@ -23,7 +23,7 @@ export default function ChatSidebar() {
         </Link>
       </div>
       
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0">
         <div className="p-2 space-y-1">
           {isPending ? (
             <PendingMessage />

@@ -86,6 +86,7 @@ export default new Module('aiChat', {
       return {
         role: 'assistant',
         content: response.text,
+        chatId,
       };
     },
   },
