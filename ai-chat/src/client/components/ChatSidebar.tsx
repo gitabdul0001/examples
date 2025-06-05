@@ -1,4 +1,5 @@
-import { useQuery } from 'modelence/client';
+import { useQuery } from '@tanstack/react-query';
+import { modelenceQuery } from '@modelence/react-query';
 import { Link } from 'react-router-dom';
 
 interface Chat {
@@ -8,7 +9,9 @@ interface Chat {
 }
 
 export default function ChatSidebar() {
-  const { data: chats = [], isFetching } = useQuery<Chat[]>('aiChat.getChats');
+  const { data: chats = [], isPending } = useQuery(
+    modelenceQuery('aiChat.getChats')
+  );
 
   return (
     <div className="w-64 bg-gray-50 border-r flex flex-col">
@@ -22,7 +25,7 @@ export default function ChatSidebar() {
       
       <div className="flex-1 overflow-y-auto">
         <div className="p-2 space-y-1">
-          {isFetching ? (
+          {isPending ? (
             <PendingMessage />
           ) : (
             chats?.map((chat) => (

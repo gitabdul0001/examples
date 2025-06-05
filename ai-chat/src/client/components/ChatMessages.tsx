@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useMutation } from 'modelence/client';
+import { useMutation } from '@tanstack/react-query';
+import { modelenceMutation } from '@modelence/react-query';
 import Button from '../ui/Button';
 
 interface ChatMessage {
@@ -15,7 +16,9 @@ interface ChatMessagesProps {
 export default function ChatMessages({ initialMessages = [], chatId }: ChatMessagesProps) {
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
   const [input, setInput] = useState('');
-  const { mutateAsync: generateResponse, isFetching } = useMutation<ChatMessage>('aiChat.generateResponse');
+  const { mutateAsync: generateResponse, isPending } = useMutation(
+    modelenceMutation('aiChat.generateResponse')
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +52,7 @@ export default function ChatMessages({ initialMessages = [], chatId }: ChatMessa
               {message.content}
             </div>
           ))}
-          {isFetching && (
+          {isPending && (
             <div className="bg-white mr-12 p-4 rounded-lg">
               <div className="flex gap-2">
                 <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
