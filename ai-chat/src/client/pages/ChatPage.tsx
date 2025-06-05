@@ -42,7 +42,7 @@ export default function ChatPage() {
                   <h1 className="text-lg font-semibold text-gray-800">{data.chatTitle}</h1>
                 </div>
               )}
-              <ChatMessages initialMessages={messages} chatId={chatId} />
+              <ChatMessages messages={messages} chatId={chatId} />
             </>
           )}
         </div>

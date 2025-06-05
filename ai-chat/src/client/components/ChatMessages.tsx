@@ -9,12 +9,12 @@ interface ChatMessage {
 }
 
 interface ChatMessagesProps {
-  initialMessages?: ChatMessage[];
+  messages?: ChatMessage[];
   chatId?: string;
 }
 
-export default function ChatMessages({ initialMessages = [], chatId }: ChatMessagesProps) {
-  const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
+export default function ChatMessages({ messages = [], chatId }: ChatMessagesProps) {
+  const [pendingMessages, setPendingMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const { mutateAsync: generateResponse, isPending } = useMutation(
     modelenceMutation('aiChat.generateResponse')
@@ -25,22 +25,23 @@ export default function ChatMessages({ initialMessages = [], chatId }: ChatMessa
     if (!input.trim()) return;
 
     const userMessage: ChatMessage = { role: 'user', content: input };
-    const updatedMessages = [...messages, userMessage];
-    setMessages(updatedMessages);
+    setPendingMessages([userMessage]);
     setInput('');
     
     const aiMessage = await generateResponse({ 
-      messages: updatedMessages,
+      messages: [...messages, userMessage],
       chatId,
     });
-    setMessages(prev => [...prev, aiMessage]);
+    setPendingMessages(prev => [...prev, aiMessage]);
   };
+
+  const allMessages = [...messages, ...pendingMessages];
 
   return (
     <div className="flex-1 flex flex-col">
       <div className="flex-1 overflow-y-auto min-h-0">
         <div className="max-w-3xl mx-auto p-4 space-y-4">
-          {messages.map((message, index) => (
+          {allMessages.map((message, index) => (
             <div
               key={index}
               className={`p-4 rounded-lg ${
@@ -93,4 +94,4 @@ export default function ChatMessages({ initialMessages = [], chatId }: ChatMessa
       </div>
     </div>
   );
-} 
+}
