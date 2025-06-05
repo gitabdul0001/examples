@@ -26,16 +26,21 @@ export default function ChatMessages({ messages = [], chatId }: ChatMessagesProp
     modelenceMutation('aiChat.generateResponse')
   );
 
+  const getAllMessages = () => {
+    return [...messages, ...pendingMessages];
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
     const userMessage: ChatMessage = { role: 'user', content: input };
-    setPendingMessages([userMessage]);
+    const allMessages = getAllMessages();
+    setPendingMessages(prev => [...prev, userMessage]);
     setInput('');
     
     const response = await generateResponse({ 
-      messages: [...messages, userMessage],
+      messages: [...allMessages, userMessage],
       chatId,
     }) as GenerateResponseResult;
     
@@ -47,13 +52,11 @@ export default function ChatMessages({ messages = [], chatId }: ChatMessagesProp
     }
   };
 
-  const allMessages = [...messages, ...pendingMessages];
-
   return (
     <div className="flex-1 flex flex-col min-h-0">
       <div className="overflow-y-auto" style={{ height: 'calc(100vh - 160px)' }}>
         <div className="max-w-3xl mx-auto p-4 space-y-4 pb-24">
-          {allMessages.map((message, index) => (
+          {getAllMessages().map((message, index) => (
             <div
               key={index}
               className={`p-4 rounded-lg ${
