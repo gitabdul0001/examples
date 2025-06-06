@@ -1,5 +1,6 @@
 import { renderApp } from 'modelence/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { toast, Toaster } from 'react-hot-toast';
 import { Suspense, lazy } from 'react';
 
@@ -15,6 +16,15 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 const SignupPage = lazy(() => import('./pages/SignupPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
@@ -57,12 +67,12 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Toaster position="top-right" />
       <Suspense fallback={<LoadingSpinner fullScreen />}>
         <RouterProvider router={router} />
       </Suspense>
-    </>
+    </QueryClientProvider>
   );
 }
 
@@ -74,4 +84,3 @@ renderApp({
   loadingElement: <LoadingSpinner fullScreen />,
   favicon
 });
-

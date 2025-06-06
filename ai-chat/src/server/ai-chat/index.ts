@@ -1,6 +1,7 @@
-import { getConfig, Module, ObjectId, UserInfo } from 'modelence/server';
 import { generateText } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
+import { Module, ObjectId, UserInfo } from 'modelence/server';
+import { getOpenAIConfig } from 'modelence/ai';
 import { dbChats, dbMessages } from './db';
 import { z } from 'zod';
 
@@ -61,7 +62,7 @@ export default new Module('aiChat', {
 
       const contextMessages = messages.slice(-10);
 
-      const openai = createOpenAI({ apiKey: String(getConfig('_system.openai.apiKey')) });
+      const openai = createOpenAI(getOpenAIConfig());
       const response = await generateText({
         model: openai('gpt-4o'),
         messages: contextMessages,
