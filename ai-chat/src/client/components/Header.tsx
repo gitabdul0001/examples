@@ -2,7 +2,7 @@ import { UserMenu } from '@modelence/auth-ui';
 import { Link } from 'react-router-dom';
 
 // @ts-ignore
-import logo from '../assets/modelence.png';
+import logo from '../assets/logo.png';
 
 export default function Header() {
   return (

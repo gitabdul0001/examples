@@ -7,7 +7,7 @@ import { Suspense, lazy } from 'react';
 import { AuthenticatedGuard, UnauthenticatedGuard } from './guards';
 import LoadingSpinner from './components/LoadingSpinner';
 // @ts-ignore
-import favicon from './assets/favicon.png';
+import favicon from './assets/logo.png';
 import './index.css';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
