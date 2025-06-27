@@ -1,11 +1,11 @@
-import { renderApp } from 'modelence/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { renderApp } from 'modelence/client';
+import { lazy, Suspense } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
-import { Suspense, lazy } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { AuthenticatedGuard, UnauthenticatedGuard } from './guards';
 import LoadingSpinner from './components/LoadingSpinner';
+import { AuthenticatedGuard, UnauthenticatedGuard } from './guards';
 // @ts-ignore
 import favicon from './assets/favicon.png';
 import './index.css';
@@ -78,7 +78,7 @@ function App() {
 
 renderApp({
   routesElement: <App />,
-  errorHandler: (error) => {
+  errorHandler: (error: Error) => {
     toast.error(error.message);
   },
   loadingElement: <LoadingSpinner fullScreen />,
