@@ -7,7 +7,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LoadingSpinner from './components/LoadingSpinner';
 import { AuthenticatedGuard, UnauthenticatedGuard } from './guards';
 // @ts-ignore
-import favicon from './assets/favicon.png';
+import favicon from './assets/favicon.svg';
 import './index.css';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
