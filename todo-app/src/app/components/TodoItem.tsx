@@ -9,17 +9,23 @@ interface Todo {
 interface TodoItemProps {
   todo: Todo;
   onToggle: (todo: Todo) => void;
+  isDisabled?: boolean;
 }
 
-export default function TodoItem({ todo, onToggle }: TodoItemProps) {
+export default function TodoItem({ todo, onToggle, isDisabled = false }: TodoItemProps) {
   return (
-    <li className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+    <li className={`flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg transition-colors ${
+      isDisabled 
+        ? 'opacity-60 cursor-not-allowed' 
+        : 'hover:bg-gray-100 dark:hover:bg-gray-600'
+    }`}>
       <div className="flex items-center gap-3">
         <input
           type="checkbox"
           checked={todo.completed}
-          onChange={() => onToggle(todo)}
-          className="w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
+          onChange={() => !isDisabled && onToggle(todo)}
+          disabled={isDisabled}
+          className="w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
         />
         <span className={`${todo.completed ? 'line-through text-gray-500 dark:text-gray-400' : 'text-gray-700 dark:text-gray-200'}`}>
           {todo.title}

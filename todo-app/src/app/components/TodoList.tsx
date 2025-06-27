@@ -11,9 +11,10 @@ interface Todo {
 interface TodoListProps {
   todos: Todo[];
   onToggleTodo: (todo: Todo) => void;
+  isLoading?: boolean;
 }
 
-export default function TodoList({ todos, onToggleTodo }: TodoListProps) {
+export default function TodoList({ todos, onToggleTodo, isLoading = false }: TodoListProps) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
       <ul className="space-y-3">
@@ -21,7 +22,8 @@ export default function TodoList({ todos, onToggleTodo }: TodoListProps) {
           <TodoItem 
             key={todo._id || index} 
             todo={todo} 
-            onToggle={onToggleTodo} 
+            onToggle={onToggleTodo}
+            isDisabled={isLoading}
           />
         ))}
       </ul>
