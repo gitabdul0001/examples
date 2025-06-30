@@ -1,10 +1,10 @@
 import { renderApp } from 'modelence/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { routes } from './routes';
 // @ts-ignore
-import favicon from './assets/favicon.png';
+import favicon from './assets/favicon.svg';
 import './index.css';
 
 renderApp({
