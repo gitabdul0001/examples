@@ -1,5 +1,5 @@
 // @ts-ignore
-import logo from '../assets/modelence.png';
+import logo from '../assets/modelence.svg';
 
 export default function HomePage() {
   return (
