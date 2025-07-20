@@ -1,5 +1,6 @@
 import { startApp } from 'modelence/server';
+import postsModule from './posts';
 
 startApp({
-    modules: [/* Add your modules here */]
+    modules: [postsModule]
 });

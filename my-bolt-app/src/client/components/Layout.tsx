@@ -30,6 +30,12 @@ function Header() {
           </Link>
           
           <nav className="flex items-center space-x-4">
+            <Link to="/generator" className="text-gray-600 hover:text-gray-900">
+              Generator
+            </Link>
+            <Link to="/posts" className="text-gray-600 hover:text-gray-900">
+              My Posts
+            </Link>
             {user ? (
               <UserMenu user={user} />
             ) : (

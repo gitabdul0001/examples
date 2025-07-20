@@ -17,9 +17,12 @@ export const routes = [
     path: '/profile',
     Component: lazy(() => import('./pages/ProfilePage'))
   },
-  // Add more routes as needed for your specific features
-  // {
-  //   path: '/feature1',
-  //   Component: lazy(() => import('./pages/Feature1Page'))
-  // },
+  {
+    path: '/generator',
+    Component: lazy(() => import('./pages/GeneratorPage'))
+  },
+  {
+    path: '/posts',
+    Component: lazy(() => import('./pages/PostsPage'))
+  },
 ];

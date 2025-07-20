@@ -21,22 +21,22 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           <FeatureCard
-            title="Feature 1"
-            description="Add your first feature description here"
-            icon="🚀"
-            link="/feature1"
+            title="AI Post Generator"
+            description="Generate engaging social media posts with AI for any platform"
+            icon="🤖"
+            link="/generator"
           />
           <FeatureCard
-            title="Feature 2"
-            description="Add your second feature description here"
-            icon="⚡"
-            link="/feature2"
+            title="My Posts"
+            description="View, edit, and manage all your generated social media posts"
+            icon="📝"
+            link="/posts"
           />
           <FeatureCard
-            title="Feature 3"
-            description="Add your third feature description here"
-            icon="🎯"
-            link="/feature3"
+            title="Templates"
+            description="Save and reuse your favorite post prompts and templates"
+            icon="📋"
+            link="/templates"
           />
         </div>
 

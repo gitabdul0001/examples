@@ -12,14 +12,18 @@
      "test": "echo \"Error: no test specified\" && exit 1"
    },
    "dependencies": {
+    "@ai-sdk/openai": "^1.1.9",
+    "ai": "^4.1.16",
 +    "@modelence/auth-ui": "^0.1.12",
 +    "@modelence/react-query": "^1.0.2",
 +    "@tanstack/react-query": "^5.80.5",
+    "lucide-react": "^0.263.1",
      "modelence": "^0.5.6",
      "react": "^18.2.0",
      "react-dom": "^18.2.0",
      "react-hot-toast": "^2.4.1",
-     "react-router-dom": "^6.22.0"
+    "react-router-dom": "^6.22.0",
+    "zod": "^3.25.42"
    },
    "devDependencies": {
      "@types/node": "^20.11.0",
